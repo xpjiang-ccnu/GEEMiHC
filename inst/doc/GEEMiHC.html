@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Han Sun, Xiaoyun Huang, Ban Huo, Yuting Tan, Tingting He, Xingpeng Jiang" />
+
+<meta name="date" content="2022-03-10" />
+
+<title>Detecting sparse microbial association signals adaptively from longitudinal microbiome data based on generalized estimating equations</title>
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Detecting sparse microbial association signals adaptively from longitudinal microbiome data based on generalized estimating equations</h1>
+<h4 class="author">Han Sun, Xiaoyun Huang, Ban Huo, Yuting Tan, Tingting He, Xingpeng Jiang</h4>
+<h4 class="date">2022-03-10</h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction">1. Introduction</a></li>
+<li><a href="#installation">2. Installation</a><ul>
+<li><a href="#requisite-r-packages">2.1. Requisite R packages</a></li>
+<li><a href="#r-package-geemihc">2.2. R package <strong>GEEMiHC</strong></a></li>
+</ul></li>
+<li><a href="#model">3. Model</a><ul>
+<li><a href="#generalized-estimating-equations">3.1. Generalized estimating equations</a></li>
+<li><a href="#marginal-score-statistics">3.2. Marginal score statistics</a></li>
+<li><a href="#gee-based-higher-criticism-analyses">3.3. GEE-based higher criticism analyses</a></li>
+<li><a href="#adjustments-for-low-sparsity-levels">3.4. Adjustments for low sparsity levels</a></li>
+<li><a href="#microbiome-higher-criticism-analysis-for-longitudinal-data">3.5. Microbiome higher criticism analysis for longitudinal data</a></li>
+</ul></li>
+<li><a href="#implementation">4. Implementation</a></li>
+<li><a href="#function-simulateotu">5. Function <strong>SimulateOTU</strong></a><ul>
+<li><a href="#description">5.1. Description</a></li>
+<li><a href="#example">5.2. Example</a></li>
+</ul></li>
+<li><a href="#references">6. References</a></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1>1. Introduction</h1>
+<p>This R package, <strong>GEEMiHC</strong>, can be used for detecting sparse microbial association signals adaptively from longitudinal microbiome data. It can be applied to datasets with diverse types of outcomes to study the association between diverse types of host phenotype and microbiome, such BMI (Gaussian distribution), disease status (Binomial distribution) or number of tumors (Poisson distribution). Considering cross-sectional data as a special case of longitudinal data, it can be also applied to cross-sectional data, in which case the results will be consistent with MiHC.</p>
+</div>
+<div id="installation" class="section level1">
+<h1>2. Installation</h1>
+<div id="requisite-r-packages" class="section level2">
+<h2>2.1. Requisite R packages</h2>
+<p>Our R package GEEMiHC requires these existing R packages (“phyloseq”, “cluster”, “compositions”, “permute”, “PGEE”, “vegan”, “ape”, “dirmult”, “aSPU”, “MiSPU”) to be pre-imported, where “phyloseq” is available in Bioconductor and the others are available in CRAN. We need to install these package using the following code:</p>
+<pre><code>BiocManager::install(&quot;phyloseq&quot;)
+install.packages(&quot;cluster&quot;)
+install.packages(&quot;compositions&quot;)
+install.packages(&quot;permute&quot;)
+install.packages(&quot;PGEE&quot;)
+install.packages(&quot;vegan&quot;)
+install.packages(&quot;ape&quot;)
+install.packages(&quot;dirmult&quot;)
+install.packages(&quot;aSPU&quot;)
+install.packages(&quot;MiSPU&quot;)</code></pre>
+</div>
+<div id="r-package-geemihc" class="section level2">
+<h2>2.2. R package <strong>GEEMiHC</strong></h2>
+<p>You may install <code>GEEMiHC</code> from GitHub using the following code:</p>
+<pre><code>install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;xpjiang-ccnu/GEEMiHC&quot;, force=T)</code></pre>
+</div>
+</div>
+<div id="model" class="section level1">
+<h1>3. Model</h1>
+<div id="generalized-estimating-equations" class="section level2">
+<h2>3.1. Generalized estimating equations</h2>
+<p>We establish the connection between the marginal mean and other factors by specifying that</p>
+<p><span class="math display">\[\begin{equation}
+  \begin{aligned}[b]
+    g({\mu}_{it}) = \textbf{X}_{it}^T \alpha + {\textbf{o}}_{it}^T \beta,
+  \end{aligned}
+\end{equation}\]</span> where <span class="math inline">\(\textbf{o}_{it} = (o_{it1}, o_{it2}, \ldots, o_{itm})^T\)</span> represents the abundance data of <span class="math inline">\(m\)</span> OTUs, <span class="math inline">\(\textbf{X}_{it} = (1, x_{it1}, \ldots, x_{itl})^T\)</span> is <span class="math inline">\((l+1)\)</span>-dimension vectors of covariates and <span class="math inline">\(\mu _{it}\)</span> represents the expectation of <span class="math inline">\(y_{it}\)</span>. And we can obtain the estimator of regression parameter <span class="math inline">\(\theta = (\alpha^T,\beta^T)^T\)</span> by solving the following:</p>
+<p><span class="math display">\[\begin{equation}
+  \begin{aligned}[b]
+    \textbf{S}(\theta) &amp; = \sum_{i=1}^n (\frac{\partial \mu_i(\theta)}{\partial \theta ^T})^T \textbf{V}^{-1}_i (\textbf{Y}_i-\mu_i(\theta)) \\
+    &amp; = \sum_{i=1}^n {\begin{pmatrix} \textbf{X}_{i}^T \\ \textbf{o}_{i}^T \end{pmatrix}} \textbf{A}_i(\theta)\textbf{V}^{-1}_i(\textbf{Y}_i-\mu_i(\theta))=0.
+  \end{aligned}
+\end{equation}\]</span> where <span class="math inline">\(\textbf{V}_i=\textbf{A}^{1/2}_i(\theta)\textbf{R}(\tau)\textbf{A}^{1/2}_i(\theta)\)</span> is the working covariance matrix and <span class="math inline">\(\textbf{R}(\tau)\)</span> is the working correlation matrix.</p>
+</div>
+<div id="marginal-score-statistics" class="section level2">
+<h2>3.2. Marginal score statistics</h2>
+<p>The GEE-based marginal score statistic is as follows: <span class="math display">\[\begin{equation}\label{Z}
+  \begin{aligned}[b]
+    Z^{\rm GEE}_j = \frac{\textbf{o}^T_{{.}j}(\textbf{Y}-\hat{\mu}_0)}{\sqrt{\textbf{o}^T_{{.}j} \textbf{P} \textbf{o}_{{.}j}}},
+  \end{aligned}
+\end{equation}\]</span> where <span class="math inline">\(\textbf{o}_{.j} = (o_{11j}, o_{12j}, \ldots, o_{n {k_n} j})^T\)</span> and <span class="math inline">\(\textbf{Y} = (\textbf{Y}_{1}^T, \ldots, \textbf{Y}_n^T)^T\)</span>. The vector of the expected values <span class="math inline">\(\hat{\mu}_0\)</span> consists of the estimator of <span class="math inline">\({\mu}_{it}\)</span></p>
+</div>
+<div id="gee-based-higher-criticism-analyses" class="section level2">
+<h2>3.3. GEE-based higher criticism analyses</h2>
+<p>We consider association signals with close phylogenetic relevance to be amplified by adding the weighted factor <span class="math inline">\(w_j\)</span> to the GEE-based HC test (i.e., GEEHC test). Following the HC test and MiHC, the test statistics for the original and weighted GEE-based HC test are as follows: <span class="math display">\[\begin{equation}\label{uGEEHC}
+  \begin{aligned}[b]
+    {\rm uGEEHC}=\max _{j \in {\{1, 2, \ldots, m\}}} {\frac{r_j / m - p_j}{\sqrt{p_j (1-p_j)/m}}},
+  \end{aligned}
+\end{equation}\]</span> <span class="math display">\[\begin{equation}\label{wGEEHC}
+  \begin{aligned}[b]
+    {\rm wGEEHC}=\max _{j \in {\{1, 2, \ldots, m\}}} {\frac{w_j (r_j / m - p_j)}{\sqrt{p_j (1-p_j)/m}}},
+  \end{aligned}
+\end{equation}\]</span> where <span class="math display">\[ w_j = \frac{\sum_ {j&#39; \in \zeta (j)/{\{j\}}}^{} \frac{1}{D_{j, j&#39;}} |Z^{\rm GEE}_{j&#39;}|}{\sum_ {j&#39; \in \zeta (j)/{\{j\}}}^{} \frac{1}{D_{j, j&#39;}}} +1 \]</span> is the weight of the <span class="math inline">\(j\)</span>th OTU and <span class="math inline">\(D_{j, j&#39;}\)</span> denotes the cophenetic distance and <span class="math inline">\(\zeta (j)\)</span> is a cluster with <span class="math inline">\(j\)</span>th OTU by using the partitioning-around-medoids algorithm (PAM).</p>
+</div>
+<div id="adjustments-for-low-sparsity-levels" class="section level2">
+<h2>3.4. Adjustments for low sparsity levels</h2>
+<p>To adapt to low sparsity levels, we can make appropriate adjustments: <span class="math display">\[\begin{equation}\label{uGEEHC(lambda)}
+  \begin{aligned}[b]
+    {\rm uGEEHC}_{(\lambda)} = \sum _{j&#39;=1}^\lambda {\lambda_{j&#39;} * {\rm uGEEHC}_{j&#39;}},
+  \end{aligned}
+\end{equation}\]</span> <span class="math display">\[\begin{equation}\label{wGEEHC(lambda)}
+  \begin{aligned}[b]
+    {\rm wGEEHC}_{(\lambda)} = \sum _{j&#39;=1}^\lambda {\lambda_{j&#39;} * {\rm wGEEHC}_{j&#39;}},
+  \end{aligned}
+\end{equation}\]</span> where <span class="math inline">\(\lambda_{j&#39;}\)</span> is the <span class="math inline">\(j&#39;\)</span>th weight and <span class="math inline">\(\sum _{j&#39;=1}^\lambda \lambda_{j&#39;} = 1\)</span>.</p>
+</div>
+<div id="microbiome-higher-criticism-analysis-for-longitudinal-data" class="section level2">
+<h2>3.5. Microbiome higher criticism analysis for longitudinal data</h2>
+<p>The form of GEEMiHC is as follows: <span class="math display">\[\begin{equation}\label{GEEMiHC}
+  \begin{aligned}[b]
+    T_{\rm GEEMiHC} = \min (\min _{\lambda \in \Gamma} (P_{{\rm uGEEHC}_{(\lambda)}},P_{{\rm wGEEHC}_{(\lambda)}}), P_{\rm Simes}), \quad \; 
+  \end{aligned}
+\end{equation}\]</span> where <span class="math inline">\(P_{{\rm uGEEHC}_{(\lambda)}}\)</span> and <span class="math inline">\(P_{{\rm wGEEHC}_{(\lambda)}}\)</span> are the <span class="math inline">\(p\)</span>-values for the test statistics <span class="math inline">\({\rm uGEEHC}_{(\lambda)}\)</span> and <span class="math inline">\({\rm wGEEHC}_{(\lambda)}\)</span>, respectively; and <span class="math inline">\(P_{\rm Simes}\)</span> is the <span class="math inline">\(p\)</span>-value for the Simes test , whose model is as follow: <span class="math display">\[\begin{equation}\label{Simes}
+  \begin{aligned}[b]
+    P_{\rm Simes} = T_{\rm Simes} = \min _{j \in {\{1, 2, \ldots, m\}}} \{\frac{m p_j}{r_j}\}.
+  \end{aligned}
+\end{equation}\]</span> To accommodate these uncertain correlation structures, it is valuable to analyze various related structures to obtain more accurate conclusions. The adaptive GEEMiHC (aGEEMiHC) integrates multiple GEEMiHCs with different structures, whose model is as follow: <span class="math display">\[\begin{equation}\label{aGEEMiHC}
+  \begin{aligned}[b]
+    T_{\rm aGEEMiHC} = \min (T^{\rm AR}_{\rm GEEMiHC}, T^{\rm EX}_{\rm GEEMiHC}, T^{\rm IN}_{\rm GEEMiHC}),
+  \end{aligned}
+\end{equation}\]</span> where <span class="math inline">\(T^{\rm AR}_{\rm GEEMiHC}\)</span>, <span class="math inline">\(T^{\rm EX}_{\rm GEEMiHC}\)</span> and <span class="math inline">\(T^{\rm IN}_{\rm GEEMiHC}\)</span> represent test statistics for GEEMiHC(AR), GEEMiHC(EX) and GEEMiHC(IN), respectively (Eq. ). For longitudinal data with an unknown underlying correlation within clusters, GEEMiHCs cannot always have robust stability, but aGEEMiHC can perform well.</p>
+</div>
+</div>
+<div id="implementation" class="section level1">
+<h1>4. Implementation</h1>
+<p>First of all, we import requisite R packages:</p>
+<pre><code>library(cluster)
+library(permute)
+library(phyloseq)
+library(PGEE)  
+library(GEEMiHC)  </code></pre>
+<p>Then, we import example microbiome data:</p>
+<pre><code>data(CD_longitudinal)
+CD_longitudinal
+
+#&gt; phyloseq-class experiment-level object
+#&gt; otu_table()   OTU Table:         [ 372 taxa and 81 samples ]
+#&gt; sample_data() Sample Data:       [ 81 samples by 4 sample variables ]
+#&gt; phy_tree()    Phylogenetic Tree: [ 372 tips and 371 internal nodes ]
+
+otu.tab &lt;- CD_longitudinal@otu_table
+tree &lt;- CD_longitudinal@phy_tree
+y &lt;- sample_data(CD_longitudinal)$label
+covs &lt;- data.frame(matrix(NA, length(y), 2))
+covs[,1] &lt;- as.numeric(sample_data(CD_longitudinal)$age)
+covs[,2] &lt;- as.factor(sample_data(CD_longitudinal)$smoker)
+id &lt;- sample_data(CD_longitudinal)$id</code></pre>
+<p>The microbiome data we use includes OTU count table, phylogenetic tree and sample information, where sample information contains response Variable (e.g., disease status) and covariates (e.g., age, gender). Next, we test the association between CD status and microbial composition using aGEEMiHC:</p>
+<pre><code>set.seed(123)
+out &lt;- GEEMiHC(y, id, covs=covs, otu.tab=otu.tab, tree=tree, model=&quot;binomial&quot;, n.perm=5000)</code></pre>
+<p>We can find significant association between CD status and microbial composition based on aGEEMiHC (<em>p</em>-value <span class="math inline">\(\approx\)</span> 0.006 &lt; 0.05), and rank order for significant factors (<em>Lachnospiraceae</em>, No. “3586” “7929” “9498” et al., and <em>Ruminococcaceae</em>, No. “1784” “4760” “594” et al.) associated with the host phenotype. <em>Lachnospiraceae</em> and <em>Ruminococcaceae</em> have ever reported differences in these bacteria between CD patients and healthy people.</p>
+<pre><code>out$ind.pvs.GEEMiHC.AR
+
+#&gt;   uGEEHC(h).AR wGEEHC(h).AR
+#&gt; 1   0.01980196   0.02520195
+#&gt; 3   0.02400195   0.02320195
+#&gt; 5   0.02280195   0.02140196
+#&gt; 7   0.02200196   0.02120196
+#&gt; 9   0.02140196   0.02060196
+
+
+out$ind.pvs.GEEMiHC.EX
+
+#&gt;   uGEEHC(h).EX wGEEHC(h).EX
+#&gt; 1   0.02060196   0.02600195
+#&gt; 3   0.02480195   0.02400195
+#&gt; 5   0.02480195   0.02220196
+#&gt; 7   0.02260195   0.02260195
+#&gt; 9   0.02180196   0.02140196
+
+out$ind.pvs.GEEMiHC.IN
+
+#&gt;   uGEEHC(h).IN wGEEHC(h).IN
+#&gt; 1   0.02520195   0.02700195
+#&gt; 3   0.02180196   0.01920196
+#&gt; 5   0.01940196   0.01660197
+#&gt; 7   0.01780196   0.01540197
+#&gt; 9   0.01700197   0.01480197
+
+out$ada.pvs
+
+#&gt; GEEMiHC(AR) GEEMiHC(EX) GEEMiHC(IN)    aGEEMiHC 
+#&gt; 0.004801990 0.004201992 0.012601975 0.005601989
+
+out$rank.order$uGEEHC.AR[1:50]
+
+#&gt;  [1] &quot;3586&quot; &quot;8895&quot; &quot;2430&quot; &quot;2556&quot; &quot;7929&quot; &quot;5929&quot; &quot;7825&quot; &quot;1784&quot; &quot;8608&quot; &quot;288&quot; 
+#&gt; [11] &quot;4760&quot; &quot;9498&quot; &quot;6918&quot; &quot;594&quot;  &quot;4861&quot; &quot;8792&quot; &quot;587&quot;  &quot;6618&quot; &quot;9427&quot; &quot;4400&quot;
+#&gt; [21] &quot;4193&quot; &quot;817&quot;  &quot;1298&quot; &quot;6357&quot; &quot;6737&quot; &quot;9648&quot; &quot;1726&quot; &quot;9634&quot; &quot;1658&quot; &quot;3561&quot;
+#&gt; [31] &quot;4128&quot; &quot;4645&quot; &quot;5264&quot; &quot;518&quot;  &quot;7005&quot; &quot;5961&quot; &quot;4088&quot; &quot;9854&quot; &quot;8086&quot; &quot;1515&quot;
+#&gt; [41] &quot;8853&quot; &quot;3271&quot; &quot;3119&quot; &quot;9514&quot; &quot;5816&quot; &quot;5102&quot; &quot;2425&quot; &quot;9304&quot; &quot;1863&quot; &quot;9488&quot;</code></pre>
+</div>
+<div id="function-simulateotu" class="section level1">
+<h1>5. Function <strong>SimulateOTU</strong></h1>
+<div id="description" class="section level2">
+<h2>5.1. Description</h2>
+<p>This function can be used for the OTUs count table simulated according to real data. The simulation process is implemented based on the Dirichlet-multinomial model. We first calculate the parameters of the real data, and then generate the corresponding cross-sectional simulated data according to the parameters.</p>
+</div>
+<div id="example" class="section level2">
+<h2>5.2. Example</h2>
+<p>Parameter estimation:</p>
+<pre><code>library(dirmult) 
+data(&quot;throat.otu.tab&quot;, package = &quot;MiSPU&quot;)
+nOTU = 100
+otu_sum &lt;- apply(throat.otu.tab, 2, sum)
+throat.otu.tab.100 &lt;- throat.otu.tab[, order(otu_sum, decreasing = T)[1:nOTU]]
+parameters &lt;- dirmult(throat.otu.tab.100)
+parameters</code></pre>
+<p>Generation of microbiome data:</p>
+<pre><code>otu.tab &lt;- SimulateOTU(throat.otu.tab.100, nSam = 50, parameters, mu = 1000, size = 25)</code></pre>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>6. References</h1>
+<ul>
+<li><p>Sun H, et al. Detecting sparse microbial association signals adaptively from longitudinal microbiome data based on generalized estimating equations. (under review)</p></li>
+<li><p>Liang K and Zeger S. Longitudinal data analysis using generalized linear models. <em>Biometrika</em> 1986;<strong>73</strong>:13–22.</p></li>
+<li><p>Koh H and Zhao N. A powerful microbial group association test based on the higher criticism analysis for sparse microbial association signals. <em>Microbiome</em> 2020;<strong>8</strong>(1):63.</p></li>
+<li><p>Paradis E, et al. APE: Analyses of phylogenetics and evolution in R language. <em>Bioinformatics</em> 2004;<strong>20</strong>(2):289-290.</p></li>
+<li><p>Reynolds A, et al. Clustering rules: A comparison of partitioning and hierarchical clustering algorithms. <em>J Math Model Algor</em> 2006;<strong>5</strong>:475–504.</p></li>
+<li><p>Schirmer M, et al. Microbial genes and pathways in inflammatory bowel disease. <em>Nat Rev Microbiol</em> 2019;<strong>17</strong>(8):497–511.</p></li>
+<li><p>Simes RJ. An improved Bonferroni procedure for multiple tests of significance. <em>Biometrika</em> 1986;<strong>73</strong>(3):751-754.</p></li>
+<li><p>Vázquez-Baeza Y., et al. Guiding longitudinal sampling in IBD cohorts. <em>Gut</em> 2018;<strong>67</strong>:1743-1745.</p></li>
+<li><p>Wang L. GEE analysis of clustered binary data with diverging number of covariates. <em>Ann. Statist.</em> 2011;<strong>39</strong>:389–417.</p></li>
+<li><p>Wang L, et al. Penalized generalized estimating equations for high-dimensional longitudinal data analysis. <em>Biometrics</em> 2012;<strong>68</strong>(2):353-360.</p></li>
+<li><p>Wu C, et al. An adaptive association test for microbiome data. <em>Genome Med</em> 2016;<strong>8</strong>(1):56.</p></li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
